@@ -1,6 +1,7 @@
 (function ($) {
 	$(document).ready(function () {
 		$('.child').hide()
+		$('.imgWooCategoryDisplay').css('object-fit', 'cover')
 
 		$('.categoryDisplay').find('.categoryDisplayItem').each(function (index) {
 			let info = $(this).find('.info').html().split(',')
