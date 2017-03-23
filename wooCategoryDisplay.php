@@ -21,14 +21,18 @@ function displayProductCategories() {
 
 	echo '<div class="categoryDisplay" style="padding-top: 40px;">';
 	foreach ($categories as $category) {
+			// echo "<pre>";
+			// var_dump($category);
+			// echo "</pre>";
+			if ($category->parent != 0 && !in_array($category->parent, $parents)) {
+				array_push($parents, $category->parent);
+				echo '<div style="display:inline-block;padding-right:10px;width:225px;vertical-align:top;padding-bottom:20px;" class="back categoryDisplayItem ' . 'child ' . $category->parent . '"><center><img style="display:block;width:225px;height:225px!important;object-fit:cover;" src="' . (plugins_url() . '/wooCategoryDisplay/backButton.png') . '"/></center>';
+				echo '<span class="info" style="display:none;"></span>';
+				echo '<center><a href="' . $_SERVER['REQUEST_URI'] . '"><h3>Go Back</h3></a></center></div>';
+			}
 			echo '<div style="display:inline-block;padding-right:10px;width:225px;vertical-align:top;padding-bottom:20px;" class="categoryDisplayItem ' . ($category->parent != 0 ? 'child ' . $category->parent : '') . '"><center><img style="display:block;width:225px;height:225px!important;object-fit:cover;" src="' . (getCategoryThumbnail($category->term_taxonomy_id) ? getCategoryThumbnail($category->term_taxonomy_id) : plugins_url() . '/wooCategoryDisplay/noImageAvailable.png') . '"/></center>';
 			echo '<span class="info" style="display:none;">' . isParent($categories, $category->term_taxonomy_id) . ', ' . $category->term_taxonomy_id . '</span>';
 			echo '<center><a href="/index.php/product-category/' . parentSlug($categories, $category->term_taxonomy_id) . '/' . $category->slug . '"><h3>' . $category->name . '</h3></a></center></div>';
-      if (isParent($categories, $Category->term_taxonomy_id)) {
-        echo '<div style="display:inline-block;padding-right:10px;width:225px;vertical-align:top;padding-bottom:20px;" class="back categoryDisplayItem ' . 'child ' . $category->term_taxonomy_id . '"><center><img style="display:block;width:225px;height:225px!important;object-fit:cover;" src="' . (plugins_url() . '/wooCategoryDisplay/backButton.png') . '"/></center>';
-        echo '<span class="info" style="display:none;"></span>';
-        echo '<center><a href="' . $_SERVER['REQUEST_URI'] . '"><h3>Go Back</h3></a></center></div>';
-      }
 	}
 	echo '</div>';
 }
